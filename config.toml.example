@@ -1,0 +1,16 @@
+download_dir = "output/"
+cache_dir = "download_cache/"
+# appended to each filename
+file_suffix = ".out"
+[[source]]
+url = "http://example.com/rss"
+matchers = [
+'Something.*here$',
+
+]
+
+[[other]]
+url = "http://example.com/rss2"
+matchers = [
+'Something.*here$',
+]
