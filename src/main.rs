@@ -47,7 +47,7 @@ fn process_source(s: &Source, root: &Path, cache_dir: &Path, suffix: &str) -> Re
 
         let guid = match maybe_guid {
             Some(g) => g.value(),
-            None  => { continue },
+            None    => m.link().unwrap_or(m.title().unwrap_or_else(|| { println!("Broken RSS: {:?}", m); return "Broken RSS item" })),
         };
 
         let t = m.title().unwrap_or("NO_TITLE");
@@ -58,6 +58,7 @@ fn process_source(s: &Source, root: &Path, cache_dir: &Path, suffix: &str) -> Re
             continue;
         }
         let mut buf = vec![];
+        // This fails with a reqwest error if the link is None
         reqwest::get(m.link().unwrap_or(""))?.copy_to(&mut buf)?;
         let filename = format!("{}{}", sha2_hash(&buf), suffix);
         let dst = root.join(filename);
